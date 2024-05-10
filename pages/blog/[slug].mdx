@@ -1,0 +1,34 @@
+import { buildDynamicMeta,buildDynamicMDX } from "nextra/remote";
+
+import { useData } from "nextra/hooks";
+import { Callout, RemoteContent, Tabs } from "nextra/components";
+
+export async function getStaticProps({ params }) {
+  let dynamicMdx = {};
+  try {
+    //FIXME: use the actual slug
+    const ress = await fetch("http://localhost:3001/api/blog/getone?slug=gql");
+    const text =await ress.json()
+    const t =text.content;
+    dynamicMdx = await buildDynamicMDX(t);
+  } catch (error) {
+    console.log({ error });
+  }
+const { __nextra_pageMap } = await buildDynamicMeta();
+return {
+props: {
+   __nextra_pageMap,
+      ...dynamicMdx
+},
+revalidate: 10,
+};
+}
+
+export const getStaticPaths = async ()=> {
+return {
+fallback: "blocking",
+paths: [{params:{slug:"coffee"}}, {params:{slug:"gql"}}],
+};
+}
+
+<RemoteContent/>
