@@ -1,20 +1,18 @@
 import { buildDynamicMeta,buildDynamicMDX } from "nextra/remote";
-
 import { useData } from "nextra/hooks";
 import { Callout, RemoteContent, Tabs } from "nextra/components";
+import { GetStaticPaths } from "next";
 
 export async function getStaticProps({ params }) {
+  const { __nextra_pageMap } = await buildDynamicMeta();
   let dynamicMdx = {};
   try {
-    //FIXME: use the actual slug
-    const ress = await fetch("http://localhost:3001/api/blog/getone?slug=gql");
+    const ress = await fetch(`http://localhost:3001/api/blog/getone?slug=${params.slug}`);
     const text =await ress.json()
     const t =text.content;
-    dynamicMdx = await buildDynamicMDX(t);
-  } catch (error) {
-    console.log({ error });
-  }
-const { __nextra_pageMap } = await buildDynamicMeta();
+    dynamicMdx = await buildDynamicMDX(t,{mdxOptions:{
+
+    }});
 return {
 props: {
    __nextra_pageMap,
@@ -22,9 +20,26 @@ props: {
 },
 revalidate: 10,
 };
+
+  } catch (error) {
+
+    console.log(error)
+
+dynamicMdx = await buildDynamicMDX("# Error\n\n## OOPS We Couldn't Get Your Post Please Be patient we Are under Construction\n\n## 🚧",{mdxOptions:{}});
+return {
+
+props: {
+
+   __nextra_pageMap,
+      ...dynamicMdx
+},
+};
+   
+  }
+
 }
 
-export const getStaticPaths = async ()=> {
+export const getStaticPaths= async ()=> {
 return {
 fallback: "blocking",
 paths: [{params:{slug:"coffee"}}, {params:{slug:"gql"}}],
