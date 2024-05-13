@@ -1,8 +1,8 @@
-import Image from "next/image";
+
 import { ThemeSwitch } from "nextra-theme-docs";
 
 export default {
-  logo: "Logo",
+  logo: "LOGO",
   project: {
     link: "https://github.com/thisisamr/blog",
   },
@@ -11,6 +11,6 @@ export default {
   },
   navbar: {
     extraContent: <ThemeSwitch lite className="[&_span]:hidden" />,
-  },
+  }, docsRepositoryBase:"https://github.com/thisisamr/blog/tree/main"
   // ... other theme options
 };
