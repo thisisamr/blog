@@ -1,8 +1,8 @@
 
 import { ThemeSwitch } from "nextra-theme-docs";
-
+import Logo from "./components/Logo";
 export default {
-  logo: "LOGO",
+  logo: <Logo/>,
   project: {
     link: "https://github.com/thisisamr/blog",
   },
