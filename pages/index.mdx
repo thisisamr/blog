@@ -1,10 +1,23 @@
+import NextImage from 'next/image'
+import {useState,useEffect} from 'react'
+import {useTheme} from 'next-themes'
 export default function Home() {
+  const [mounted,setMounted]= useState(false)
+  const {resolvedTheme} = useTheme()
+  useEffect(()=>{
+    setMounted(true)
+  },[])
+  if(!mounted){
+    return null
+  }
   return (
-    <div className="h-full flex items-center w-full text-center">
-      <p className="text-6xl md:text-8xl caveat-font dark:text-zinc-500 ">
-        Prepare to lose yourself in the haunting depths
-        <br /> of my mind.
-      </p>
+    <div className="flex items-center">
+    <NextImage src={resolvedTheme=='light'?'/hero_light.png':'/hero_dark.png'} width={400} height={600} alt='hero'/>
+    <div>
+      <p className=" uppercase tracking tracking-widest inter text-xs w-[300px] bg-gradient-to-r dark:from-purple-600 from-black via-gray-800 to-slate-600 dark:via-cyan-600 dark:to-pink-800  max-w-xs text-transparent bg-clip-text ">
+Prepare to lose yourself in the haunting depths of my mind.      </p>
+
+    </div>
     </div>
   );
 }
