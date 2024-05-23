@@ -1,1 +1,117 @@
-# this is all the blogs
+import Link from "next/link";
+import { getPagesUnderRoute } from "nextra/context";
+import { Card } from "@/components/card";
+import { Tag } from "@/components/tag";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+import usePost from "../hooks/usePost";
+import { useConfig } from "nextra-theme-docs";
+
+export default function Blog() {
+ 
+  
+  const { asPath } = useRouter();
+  const { data, isloading, isError } = usePost();
+if (isloading) {
+return <div>loading............</div>;
+}
+if(isError){
+  return (<div className="flex justify-center mt-10">
+  <p>Ooops Somthing Went wrong!😳</p>
+  </div>)
+}
+if (data) {
+let blogs = data;
+const countTags = (Blogz) => {
+const tagss = {};
+
+      // Iterate over each blog
+      blogs?.forEach((blog) => {
+        // Extract tags from the frontMatter
+        const blogTags = blog.frontmatter?.tags;
+
+// Iterate over each tag
+blogTags?.forEach((tag) => {
+// Increment tag count in the tags object
+tagss[tag] = (tagss[tag] || 0) + 1;
+});
+});
+
+      return tagss;
+    };
+
+    const tagsss = countTags(blogs);
+    // Convert object to array of key-value pairs and sort by count in descending order
+    const sortedTags = Object.entries(tagsss).sort((a, b) => b[1] - a[1]);
+
+    const currentTag = asPath.startsWith("/blog")
+      ? ""
+      : asPath.replace("/tags/", "").replace(/\/$/, "");
+    const tagList = (
+      <div className="flex gap-3 md:gap-5 mt-6 flex-wrap">
+        {sortedTags.map(([tag, count], i) => (
+          <NextLink
+            key={i}
+            href={currentTag === tag ? "/blog" : `/tags/${tag}`}
+            data-active={currentTag === tag ? "" : undefined}
+          >
+            <button className="border-whites transition-colors duration-500 ease-in-out hover:bg-pink-600 hover:text-white  text-transform: capitalize border rounded-md px-2 py-1 dark:border-white">
+              {tag} ({count})
+            </button>
+          </NextLink>
+        ))}
+      </div>
+    );
+    //
+    const blogList = blogs?.map((page, i) => {
+      const date = new Date(page.frontmatter.date);
+      if (!currentTag || page.frontmatter.tags.includes(currentTag)) {
+        return (
+          <Card
+            key={i}
+            as={Link}
+            href={`/blog/${page.slug}`}
+            className="flex flex-col dark:hover:border-pink-500 hover:border-gray-700  hover:scale-110 transition-transform duration-300  ease-in-out "
+          >
+            <div className="gap-2 flex mb-7">
+              {page.frontmatter.tags?.map((tag) => (
+                <Tag key={tag}>{tag.replaceAll("-", " ")}</Tag>
+              ))}
+            </div>
+            <div className="font-extrabold text-xl md:text-3xl text-balance">
+              {page.frontmatter.title}
+            </div>
+            <div className="opacity-50 text-sm my-7 flex gap-2">
+              <time dateTime={page.frontmatter.date}>{`${date.toLocaleString(
+                "default",
+                {
+                  month: "long",
+                }
+              )} ${date.getDate()} , ${date.getFullYear()}`}</time>
+              <span className="border-r border-gray-500" />
+              <span>by {page.frontmatter.byline}</span>
+            </div>
+            <span className="text-primary block font-bold mt-auto">
+              Read more →
+            </span>
+          </Card>
+        )
+      }
+    })
+
+    return (
+      <>
+        <div className="py-10 md:py-20 container">
+          <h1 className="text-4xl md:text-7xl font-extrabold mb-10">Blog</h1>
+          <h3 className="text-2xl font-bold">Tags</h3>
+          {tagList}
+        </div>
+        <div className="container grid md:grid-cols-2 gap-7 pb-10">
+        {blogList}
+        </div>
+      </>
+    )
+
+}
+}
+

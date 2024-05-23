@@ -7,7 +7,7 @@ export async function getStaticProps({ params }) {
   const { __nextra_pageMap } = await buildDynamicMeta();
   let dynamicMdx = {};
   try {
-    const ress = await fetch(`http://localhost:3001/api/blog/getone?slug=${params.slug}`);
+    const ress = await fetch(`http://localhost:3000/api/blog/${params.slug}`);
     const text =await ress.json()
     const t =text.content;
     dynamicMdx = await buildDynamicMDX(t,{mdxOptions:{
