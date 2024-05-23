@@ -7,5 +7,9 @@ export default {
   blog:{
     title:"Blog",
     type:"page"
+  },
+  learn:{
+    title:"learn",
+    type:"page"
   }
 };
