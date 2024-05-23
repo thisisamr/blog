@@ -9,36 +9,37 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Post {
-  id       Int   @id @default(autoincrement())
-  slug     String    @unique
-  title    String
-  content     String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  author   User      @relation(fields: [authorId], references: [id])
-  authorId Int
-  comments Comment[]
+  id         Int       @id @default(autoincrement())
+  slug       String    @unique
+  title      String
+  content    String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   Int
+  comments   Comment[]
 }
 
 model User {
-  id      Int @id @default(autoincrement())
-  email   String   @unique
-  password String
-  admin   Boolean  @default(false)
-  username    String
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  admin      Boolean  @default(false)
+  username   String
   created_at DateTime @default(now())
-  avatar  String?
-  posts   Post[]
+  avatar     String?
+  posts      Post[]
 }
 
 model Comment {
-  id      Int @id 
+  id      Int    @id
   comment String
   post    Post   @relation(fields: [postId], references: [id])
-  postId  Int 
+  postId  Int
 }
