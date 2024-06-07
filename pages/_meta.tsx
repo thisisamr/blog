@@ -1,3 +1,5 @@
+/* eslint-disable import/no-anonymous-default-export */
+import Layout from "nextra-theme-docs";
 
 export default {
   index: {
@@ -6,10 +8,13 @@ export default {
   },
   blog:{
     title:"Blog",
-    type:"page"
+    type:"page",
+    theme:{
+      layout:"full"
+    }
   },
   learn:{
     title:"learn",
     type:"page"
   }
-};
+}

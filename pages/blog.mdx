@@ -13,7 +13,7 @@ export default function Blog() {
   const { asPath } = useRouter();
   const { data, isloading, isError } = usePost();
 if (isloading) {
-return <div>loading............</div>;
+return <div>loading............</div>
 }
 if(isError){
   return (<div className="flex justify-center mt-10">
@@ -71,9 +71,9 @@ tagss[tag] = (tagss[tag] || 0) + 1;
             key={i}
             as={Link}
             href={`/blog/${page.slug}`}
-            className="flex flex-col dark:hover:border-pink-500 hover:border-gray-700  hover:scale-110 transition-transform duration-300  ease-in-out "
+            className="felx flex-col dark:hover:border-pink-500 hover:border-gray-700  hover:scale-110 transition-transform duration-300  ease-in-out "
           >
-            <div className="gap-2 flex mb-7">
+            <div className="gap-2 md:gap-4 max-w-sm md:max-w-full flex flex-wrap mb-7">
               {page.frontmatter.tags?.map((tag) => (
                 <Tag key={tag}>{tag.replaceAll("-", " ")}</Tag>
               ))}
@@ -101,12 +101,12 @@ tagss[tag] = (tagss[tag] || 0) + 1;
 
     return (
       <>
-        <div className="py-10 md:py-20 container">
+        <div className="py-10 md:py-20">
           <h1 className="text-4xl md:text-7xl font-extrabold mb-10">Blog</h1>
           <h3 className="text-2xl font-bold">Tags</h3>
           {tagList}
         </div>
-        <div className="container grid md:grid-cols-2 gap-7 pb-10">
+        <div className="grid md:grid-cols-2 gap-7 pb-10">
         {blogList}
         </div>
       </>
