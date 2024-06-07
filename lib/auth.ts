@@ -12,7 +12,7 @@ export const validateauth = (
     let user = null;
     const cookieStore = cookies();
     const token = cookieStore.get("token");
-    console.log({ token });
+    
     if (token) {
       try {
         user = await validateToken(token.value);
