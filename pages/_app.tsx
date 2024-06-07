@@ -31,8 +31,8 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <Provider>
-        <Component {...pageProps} />;
+        <Component {...pageProps}/>
       </Provider>
     </>
-  );
+  )
 }

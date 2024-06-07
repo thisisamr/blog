@@ -11,13 +11,13 @@ export default function Home() {
     return null
   }
   return (
-    <div className="flex items-center">
-    <NextImage src={resolvedTheme=='light'?'/hero_light.png':'/hero_dark.png'} width={400} height={600} alt='hero'/>
+    <div className="flex flex-col md:flex-row  md:items-center max-w-screen-sm md:max-w-full">
+    <NextImage src={resolvedTheme=='light'?'/hero_light.png':'/hero_dark.png'} width= {800} height={800}alt='hero'/>
     <div>
-      <p className=" uppercase tracking tracking-widest inter text-xs w-[300px] bg-gradient-to-r dark:from-purple-600 from-black via-gray-800 to-slate-600 dark:via-cyan-600 dark:to-pink-800  max-w-xs text-transparent bg-clip-text ">
+      <p className=" uppercase tracking tracking-widest inter text-sm w-[300px] bg-gradient-to-r dark:from-purple-600 from-black via-gray-800 to-slate-600 dark:via-cyan-600 dark:to-pink-800  max-w-xs text-transparent bg-clip-text ">
 Prepare to lose yourself in the haunting depths of my mind.      </p>
 
     </div>
     </div>
-  );
+  )
 }
