@@ -7,8 +7,12 @@ export default async () => {
     paths: { params: { slug: string } }[]
   }
   const options = {
-    display: "hidden",
-        theme:{sidebar:false}
+
+     display: "hidden",
+         theme:{sidebar:true,
+                layout: "default",
+                   timestamp: true,
+         }
     
   }
 
