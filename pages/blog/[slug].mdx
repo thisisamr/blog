@@ -2,12 +2,14 @@ import { buildDynamicMeta,buildDynamicMDX } from "nextra/remote";
 import { useData } from "nextra/hooks";
 import { Callout, RemoteContent, Tabs } from "nextra/components";
 import { GetStaticPaths } from "next";
+import prisma from "@/prisma/prisma";
 
 export async function getStaticProps({ params }) {
   const { __nextra_pageMap } = await buildDynamicMeta();
   let dynamicMdx = {};
   try {
-    const ress = await fetch(`/api/blog/${params.slug}`);
+    
+    const ress = await fetch(`${process.env.HOST}api/blog/${params.slug}`);
     const text =await ress.json()
     const t =text.content;
     dynamicMdx = await buildDynamicMDX(t,{mdxOptions:{
@@ -40,9 +42,20 @@ props: {
 }
 
 export const getStaticPaths= async ()=> {
+  //get all paths from the db
+  const r = await prisma.post.findMany({select:{
+    slug:true
+  }})
+ 
+  const paths=r.map(item=>{
+    return {
+      params:{slug:item.slug}
+    }
+  })
+  
 return {
 fallback: "blocking",
-paths: [{params:{slug:"coffee"}}, {params:{slug:"gql"}}],
+paths,
 };
 }
 
