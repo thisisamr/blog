@@ -1,8 +1,8 @@
 import { buildDynamicMeta,buildDynamicMDX } from "nextra/remote";
 import { useData } from "nextra/hooks";
 import { Callout, RemoteContent, Tabs } from "nextra/components";
-import { GetStaticPaths } from "next";
 import prisma from "@/prisma/prisma";
+
 
 export async function getStaticProps({ params }) {
   const { __nextra_pageMap } = await buildDynamicMeta();

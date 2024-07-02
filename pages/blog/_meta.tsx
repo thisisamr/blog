@@ -1,9 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
 
 import { createCatchAllMeta } from "nextra/catch-all"
-import  {getStaticPaths} from './[slug].mdx'
+import  {getpaths} from '../../lib/getPaths'
 export default async () => {
-  const { paths } = await getStaticPaths() as unknown as {
+  const { paths } = await getpaths() as unknown as {
     paths: { params: { slug: string } }[]
   }
   const options = {
