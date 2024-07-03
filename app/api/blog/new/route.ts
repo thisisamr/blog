@@ -1,8 +1,6 @@
+import { validateauth } from "@/lib/auth";
 import prisma from "@/prisma/prisma";
 import { User } from "@prisma/client";
-import { cookies } from "next/headers";
-import * as jose from "jose";
-import { validateauth } from "@/lib/auth";
 
 export const POST = validateauth(
   async (req: Request, res: Response, user: User) => {
