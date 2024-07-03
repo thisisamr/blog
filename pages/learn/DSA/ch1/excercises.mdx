@@ -1,0 +1,115 @@
+
+# Array Exercises
+#### Write a method that will return the sum of all the elements of the integer array given array and its size as an argument.
+```cpp
+int sum(int *arr, int size)
+{
+    if (size == 0)
+    {
+        return 0;
+    }
+    return arr[0] + sum(arr + 1, size - 1);
+}
+```
+#### Write a method, which will search an array for some given value.
+```cpp
+int search(int *arr, int size, int value)
+{
+
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == value)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+```
+#### Rotating an Array by K positions.
+```cpp
+//An array [10,20,30,40,50,60] rotate by 2 positions to [30,40,50,60,10,20]
+void reverse_array(std::vector<int> &arr, size_t start, size_t end)
+{
+    size_t i = start;
+    size_t j = end;
+    while (i < j)
+    {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+        i++;
+        j--;
+    }
+}
+void reverse(std::vector<int> &arr, size_t k)
+{
+    reverse_array(arr, 0, k - 1);
+    reverse_array(arr, k, arr.size() - 1);
+    reverse_array(arr, 0, arr.size() - 1);
+}
+```
+#### Given an array of positive and negative integer s, find a contiguous subarray whose sum (sum of elements) is maximized.
+To find the largest sum contiguous subarray, you can use Kadane's Algorithm. This algorithm works efficiently with a time complexity of O(n)and a space complexity of O(1). Here's how Kadane's Algorithm works:
+
+1. Initialize two variables:
+    - `max_so_far` to keep track of the maximum sum found so far.
+    - `max_ending_here` to keep track of the maximum sum of the subarray ending at the current position.
+2. Iterate through the array, updating these variables based on the current element and the previous values of `max_ending_here`.
+3. The value of `max_so_far` at the end of the iteration will be the maximum sum of the contiguous subarray.
+
+Here's a C++ implementation of Kadane's Algorithm:
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <climits>
+
+int maxSubArraySum(const std::vector<int>& arr) {
+    int max_so_far = INT_MIN, max_ending_here = 0;
+
+    for (int i = 0; i < arr.size(); ++i) {
+        max_ending_here = max_ending_here + arr[i];
+
+        if (max_so_far < max_ending_here) {
+            max_so_far = max_ending_here;
+        }
+
+        if (max_ending_here < 0) {
+            max_ending_here = 0;
+        }
+    }
+    return max_so_far;
+}
+
+int main() {
+    std::vector<int> arr = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+
+    int max_sum = maxSubArraySum(arr);
+    std::cout << "Maximum contiguous sum is " << max_sum << std::endl;
+
+    return 0;
+}
+
+```
+
+### Explanation:
+
+- **Initialization**:
+    - `max_so_far` is initialized to `INT_MIN` to ensure it can be updated by any subarray sum.
+    - `max_ending_here` is initialized to `0` as the initial sum of the current subarray.
+- **Iteration**:
+    - For each element in the array, add it to `max_ending_here`.
+    - Update `max_so_far` if `max_ending_here` is greater than `max_so_far`.
+    - If `max_ending_here` becomes negative, reset it to `0` because a negative sum would decrease the sum of any subsequent subarray.
+
+### Output:
+
+For the input array `{-2, 1, -3, 4, -1, 2, 1, -5, 4}`, the program will output:
+
+```cpp
+Maximum contiguous sum is 6
+```
+
+This result corresponds to the subarray `{4, -1, 2, 1}` which has the largest sum of `6`.
