@@ -36,6 +36,7 @@ export const ControlledUsage = () => {
               slug: f.get("slug"),
             }),
           });
+          await fetch(`/api/revalidate?slug={${f.get('slug')}}`)
           console.log(created_post)
        router.push("/blog");
         } catch (e) {
