@@ -1,13 +1,12 @@
 
 import prisma from "@/prisma/prisma";
-import * as jose from 'jose'
 import { User } from "@prisma/client";
-import {NextApiRequest, NextApiResponse } from "next"
+import * as jose from 'jose';
+import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req:NextApiRequest, res:NextApiResponse) {
-    const cookies = req.headers.cookie
     // Check for secret to confirm this is a valid request
-     const slug =req.query
+     const slug =req.body.slug
     try {
       // this should be the actual path not a rewritten path
       // e.g. for "/blog/[slug]" this should be "/blog/post-1"
