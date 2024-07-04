@@ -9,7 +9,7 @@ export async function getStaticProps({ params }) {
   let dynamicMdx = {};
   try {
    const r = await prisma.post.findFirst({where:{slug:params.slug}})
-    const t =r.content;
+    const t =r!=null?r.content:'';
     dynamicMdx = await buildDynamicMDX(t,{mdxOptions:{
 
     }});
