@@ -2,6 +2,9 @@ import { buildDynamicMeta, buildDynamicMDX } from "nextra/remote";
 import { Callout, RemoteContent, Tabs } from "nextra/components";
 import prisma from "@/prisma/prisma";
 
+export const config = {
+  runtime: 'nodejs', // or "edge"
+}
 export const getServerSideProps = async ({params}) => {
   const { __nextra_pageMap } = await buildDynamicMeta();
   let dynamicMdx = {};
