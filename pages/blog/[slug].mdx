@@ -1,96 +1,35 @@
-import { buildDynamicMeta,buildDynamicMDX } from "nextra/remote";
-import { useData } from "nextra/hooks";
+import { buildDynamicMeta, buildDynamicMDX } from "nextra/remote";
 import { Callout, RemoteContent, Tabs } from "nextra/components";
 import prisma from "@/prisma/prisma";
-import { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 
-{/* 
-export async function getStaticProps({ params }) {
+export const getServerSideProps = async ({params}) => {
   const { __nextra_pageMap } = await buildDynamicMeta();
   let dynamicMdx = {};
   try {
-   const r = await prisma.post.findFirst({where:{slug:params.slug}})
-    const t =r!=null?r.content:'';
-    dynamicMdx = await buildDynamicMDX(t,{mdxOptions:{
-
-    }});
-return {
-props: {
-   __nextra_pageMap,
-      ...dynamicMdx
-},
-};
-
-  } catch (error) {
-
-    console.log(error)
-
-dynamicMdx = await buildDynamicMDX("# Error\n\n## OOPS We Couldn't Get Your Post Please Be patient we Are under Construction\n\n## 🚧",{mdxOptions:{}});
-return {
-
-props: {
-
-   __nextra_pageMap,
-      ...dynamicMdx
-},
-};
-   
-  }
-
-}
-
-export const getStaticPaths= async ()=> {
-  //get all paths from the db
-  const r = await prisma.post.findMany({select:{
-    slug:true
-  }})
- 
-  const paths=r.map(item=>{
+    const r = await prisma.post.findFirst({ where: { slug: params.slug } });
+    const t = r != null ? r.content : "";
+    dynamicMdx = await buildDynamicMDX(t, { mdxOptions: {} });
     return {
-      params:{slug:item.slug}
-    }
-  })
-  
-return {
-fallback: "blocking",
-paths,
-};
-} */}
- 
- 
-export const getServerSideProps = async ({params}) => {
-  
-   const { __nextra_pageMap } = await buildDynamicMeta();
-  let dynamicMdx = {};
-  try {
-   const r = await prisma.post.findFirst({where:{slug:params.slug}})
-    const t =r!=null?r.content:'';
-    dynamicMdx = await buildDynamicMDX(t,{mdxOptions:{
-
-    }});
-return {
-props: {
-   __nextra_pageMap,
-      ...dynamicMdx
-},
-};
-
+      props: {
+        __nextra_pageMap,
+        ...dynamicMdx,
+      },
+    };
   } catch (error) {
+    console.log(error);
 
-    console.log(error)
+    dynamicMdx = await buildDynamicMDX(
+      "# Error\n\n## OOPS We Couldn't Get Your Post Please Be patient we Are under Construction\n\n## 🚧",
+      { mdxOptions: {} }
+    );
+    return {
+      props: {
+        __nextra_pageMap,
+        ...dynamicMdx,
+      },
+    };
 
-dynamicMdx = await buildDynamicMDX("# Error\n\n## OOPS We Couldn't Get Your Post Please Be patient we Are under Construction\n\n## 🚧",{mdxOptions:{}});
-return {
-
-props: {
-
-   __nextra_pageMap,
-      ...dynamicMdx
-},
-};
-   
-  }
 }
- 
+}
 
-<RemoteContent/>
+<RemoteContent />;
